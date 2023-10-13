@@ -1,0 +1,88 @@
+<div *ngIf="!isMobile; else elseBlock">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary mt-5">
+        <div class="container-fluid ">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="ms-auto">
+                    <form class="d-flex ms-auto" role="search">
+                        <button *ngIf="displayTimer" type="button" class="btn btn-warning">{{displayTimer}}</button>
+
+                        <button *ngIf="!displayTimer" type="button" class="btn btn-outline-success me-5"
+                            (click)="openModal(template)">Start
+                            Quiz
+                        </button>
+                        <ng-template #template>
+                            <div class="modal-header">
+                                <h4 class="modal-title pull-left">Start Quiz</h4>
+                                <button type="button" class="btn-close close pull-right" aria-label="Close"
+                                    (click)="modalRef?.hide()">
+                                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you want to confirm start quiz?</p>
+                                <button type="button" class="btn btn-outline-success me-3"
+                                    (click)="confirm()">Yes</button>
+                                <button type="button" class="btn btn-outline-danger"
+                                    (click)="modalRef?.hide()">No</button>
+                            </div>
+                        </ng-template>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <div class="card mb-3 m-5" *ngIf="timer">
+            <div class="card-body">
+                <form *ngIf="question">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label"></label>
+                        <div class="alert alert-primary" role="alert">
+                            Q{{question.no}}.{{question.name}}<br>
+                            <img class="m-2" [src]="question.imageUrl">
+                        </div>
+                    </div>
+                    <div [ngSwitch]="question.type">
+                        <div *ngSwitchCase="'checkbox'">
+                            <form>
+                                <div class="mb-3 form-check" *ngFor="let option of question.options; let i = index">
+                                    <input [(ngModel)]="option.value" [name]="option.key" [type]="question.type"
+                                        [id]="option.key" class="form-checkbox-input me-2" [value]="option.value"
+                                        (change)="updateSelectedValues(option.value)">
+                                    <label [for]="option.key" class="form-check-label">{{option.key}}</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div *ngSwitchCase="'radio'">
+                            <form>
+                                <div class="mb-3 form-check" *ngFor="let option of question.options; let i = index">
+                                    <input (change)="updateradioValues(option.value)" class="me-2" type="radio"
+                                        [id]="option.key" name="radioValue" [value]="option.value">
+                                    <label [for]="option.key">{{option.key}}</label><br>
+                                </div>
+                            </form>
+                        </div>
+                        <div *ngSwitchCase="'text'"><textarea (change)="updateTextValue($event)" rows="4"
+                                cols="50"></textarea>
+                            <br>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-center">
+                    <button *ngIf="!isLastQuestion" type="button" class="btn btn-outline-success me-5"
+                        (click)="nextQuestion(question.no)">Next</button>
+                    <button *ngIf="isLastQuestion" (click)="submitTest()" type="button"
+                        class="btn btn-outline-success me-5">Submit
+                        Quiz</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ng-template #elseBlock>
+    <div class=" alert alert-danger mt-5" role="alert">
+        Please Open Desktop/Laptop Site!
+    </div>
+</ng-template>
