@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { QuizComponent } from './containers/quiz/quiz.component';
+import { HomeComponent } from './containers/home/home.component';
 
 
 
@@ -8,6 +9,10 @@ import { QuizComponent } from './containers/quiz/quiz.component';
 const routes: Routes = [
   {
     path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'get-demo',
     component: QuizComponent
   }
 ];

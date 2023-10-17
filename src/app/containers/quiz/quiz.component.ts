@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { QuestionType } from 'src/app/enum/enum';
+import { EngineService } from 'src/app/services/engine.service';
 
 @Component({
   selector: 'app-quiz',
@@ -18,7 +19,7 @@ export class QuizComponent implements OnInit {
   isLastQuestion: boolean = false;
   answersMap: Map<number, any> = new Map<number, any>();
   selectedValues: any = [];
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private engine: EngineService) { }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -35,6 +36,7 @@ export class QuizComponent implements OnInit {
 
     ]
     this.question = this.questions[0];
+    // this.engine.setDemoQuestions(this.question)
   }
 
   updateTextValue(event: any) {

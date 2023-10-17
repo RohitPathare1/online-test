@@ -1,0 +1,38 @@
+<nav class="navbar sticky-top navbar-light navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <a class="navbar-brand me-3" href="#">Online Quiz</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation"
+            (click)="isCollapsed = !isCollapsed">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
+            <ul class="navbar-nav ml-auto container-fluid">
+                <li class="nav-item me-4">
+                    <a class="nav-link active" href="#home"
+                        routerLinkActive="active text-warning border-danger border-bottom">Home</a>
+                </li>
+                <li class="nav-item me-4">
+                    <a class="nav-link active" href="#about"
+                        routerLinkActive="active text-warning border-danger border-bottom">About</a>
+                </li>
+
+                <li class="nav-item me-4">
+                    <a class="nav-link active" href="#contact"
+                        routerLinkActive="active text-warning border-danger border-bottom">Contact Me</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <button class="btn btn-outline-success login-button" type="submit">Log In</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
