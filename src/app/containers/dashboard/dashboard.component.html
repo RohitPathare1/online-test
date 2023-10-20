@@ -1,0 +1,166 @@
+<div class="dashboard">
+    <div class="">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body text-center">
+                        <div class="profile-container text-center mx-auto">
+                            <img (click)="selectFile(imageCropper)" class="profile-image" [src]="croppedImage"
+                                alt="Profile Image">
+                        </div>
+                        <h5 class="card-title mt-2">{{user.name}}</h5>
+
+                    </div>
+                    <div class="card m-3" style="width: 16rem;">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-body-secondary text-center">Subscriptions</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <a href="#" class="card-link">Buy Subscription</a>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Dashboard</li>
+                        <li class="list-group-item" (click)="open(content)">My Profiles</li>
+                        <li class="list-group-item">My Subscriptions</li>
+                        <li class="list-group-item">Services</li>
+                        <li class="list-group-item">Manage Account</li>
+                        <li class="list-group-item">Payment History</li>
+                        <li class="list-group-item">Contact us</li>
+                    </ul>
+
+                    <div class="card-body">
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="mt-5 mb-1 row text-center">
+                    <h5 class="card-title">Dashboard Subscriptions</h5>
+                </div>
+                <div class="container text-end mt-4">
+                    <div class="row">
+                        <div class="col">
+
+                            <button type="button" (click)="addTest(addNewTest)" class="btn btn-success  me-2">Add New
+                                Test</button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col" *ngFor="let test of tests; let i = index">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{test.name}}</h5>
+                                    <p class="card-text">{{test.details}}</p>
+                                    <button type="button" class="btn btn-danger me-2">Delete</button>
+                                    <button type="button" class="btn btn-primary">View Results</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal-title -->
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header text-center">
+        <h4 class="modal-title  text-center" id="modal-basic-title">My Profile</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label class="mb-2" for="firstName">First Name :</label>
+                <input type="text" class="form-control" id="firstName" formControlName="firstName" required>
+            </div>
+            <div class="form-group">
+                <label class="mb-2" for="lastName">Last Name :</label>
+                <input type="text" class="form-control" id="lastName" formControlName="lastName" required>
+            </div>
+            <div class="form-group">
+                <label class="mb-2" for="email">Email :</label>
+                <input type="email" class="form-control" id="email" formControlName="email" required>
+            </div>
+            <div class="form-group row">
+                <label for="phoneNumber" class="col-form-label">Phone Number :</label>
+                <div class="col-sm-4" formGroupName="phoneNumber">
+                    <select value="+91" class="form-select" formControlName="countryCode">
+                        <option value="+91">+91</option>
+                        <option value="+92">+92</option>
+                        <option value="+93">+93</option>
+                    </select>
+
+                </div>
+                <div class="col-sm-8" formGroupName="phoneNumber">
+                    <input type="number" class="form-control" id="phoneNumber" formControlName="value" required>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success" (click)="c('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<!-- image cropper -->
+
+<ng-template #imageCropper let-c="close" let-d="dismiss">
+    <div class="modal-header text-center">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-10">
+                    <h4 class="modal-title text-center" id="modal-basic-title">Edit Profile</h4>
+                </div>
+                <div class="col-2 mt-2">
+                    <button type="button" class="btn-close text-center" aria-label="Close" (click)="close()"></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-body">
+        <image-cropper [imageChangedEvent]="imageChangedEvent" (imageCropped)="imageCropped($event)"
+            [maintainAspectRatio]="true" [aspectRatio]="4 / 4" format="png"></image-cropper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger me-3" (click)="close()">Cancel</button>
+        <button type="button" class="btn btn-outline-success" (click)="saveProfile()">Save</button>
+    </div>
+</ng-template>
+<!-- Full screen modal -->
+<div class="modal-dialog modal-fullscreen">
+    ...
+</div>
+<ng-template #addNewTest let-c="close" let-d="dismiss">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title position-absolute top-0 start-50 translate-middle-x mt-2">New Test
+                    </h5>
+                    <button type="button" class="btn-close" (click)="close()" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <app-quiz-details></app-quiz-details>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="close()">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="saveTest()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+<!-- <app-quiz-details></app-quiz-details> -->

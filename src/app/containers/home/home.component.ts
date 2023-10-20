@@ -11,6 +11,10 @@ export class HomeComponent {
 
   }
   getDemo() {
-this.router.navigate(['/get-demo'])
+    this.router.navigate(['/get-demo'])
   }
+  goToSignUp() {
+    this.router.navigate(['/signup'])
+  }
+  
 }

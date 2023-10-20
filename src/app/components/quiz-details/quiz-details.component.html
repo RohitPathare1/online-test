@@ -1,0 +1,95 @@
+<form [formGroup]="testForm">
+    <div class="form-group">
+        <label class="mb-2" for="firstName">Test Name :</label>
+        <input type="text" class="form-control" id="testName" formControlName="testName" required>
+    </div>
+    <div class="form-group">
+        <label class="mb-2" for="lastName">Details :</label>
+        <input type="textarea" class="form-control" id="description" formControlName="description" required>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary mt-2 mb-2">
+        <div class="container-fluid">
+            <a class="navbar-brand">Questions</a>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div ngbDropdown class="d-inline-block">
+                    <button type="button" class="btn btn-outline-secondary  mary" id="dropdownBasic1"
+                        ngbDropdownToggle>{{selectedValue}}
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem *ngFor="let option of questionOptions"
+                            (click)="selectValue(option)">{{option}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+    <div ngbAccordion #accordion="ngbAccordion" *ngFor="let questionNo of stringToDigitArray(selectedValue)">
+        <div [ngbAccordionItem]="questionNo">
+            <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>Question No :{{questionNo}}</button>
+            </h2>
+            <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                    <ng-template>
+                        <form [formGroup]="questionForm">
+                            <div class="form-group">
+                                <label class="mb-2" for="username">Name:</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="form-group row">
+                                <label for="phoneNumber" class="col-form-label">Question Type :</label>
+                                <div class="col-sm-4">
+                                    <select value="radio" class="form-select" formControlName="questionType">
+                                        <option value="radio">Single Choise</option>
+                                        <option value="checkbox">Multiple Choise</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="mb-2" for="username">Option 1 (A)</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="mb-2" for="username">Option 2 (B)</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="mb-2" for="username">Option 3 (C)</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="mb-2" for="username">Option 4 (D)</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group row">
+                                <label for="phoneNumber" class="col-form-label">Question Answer :</label>
+                                <div class="col-sm-4">
+                                    <select value="A" class="form-select">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-8 text-end">
+                                    <button class="btn btn-sm btn-outline-primary me-2" (click)="saveQuestion(accordion,questionNo)">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr />
+
+    <!-- <button class="btn btn-sm btn-outline-primary me-2" (click)="accordion.toggle('first')">Toggle first</button>
+    <button class="btn btn-sm btn-outline-primary me-2" (click)="accordion.toggle('second')">Toggle second</button>
+    <button class="btn btn-sm btn-outline-primary me-2" (click)="accordion.expandAll()">Expand all</button>
+    <button class="btn btn-sm btn-outline-primary me-2" (click)="accordion.collapseAll()">Collapse all</button> -->
+</form>

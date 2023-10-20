@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
-import { QuestionType } from 'src/app/enum/enum';
+import { answers, questions } from 'src/app/data/demo';
 import { EngineService } from 'src/app/services/engine.service';
 
 @Component({
@@ -19,6 +19,8 @@ export class QuizComponent implements OnInit {
   isLastQuestion: boolean = false;
   answersMap: Map<number, any> = new Map<number, any>();
   selectedValues: any = [];
+  result: number = 0;
+  wishMessage: string = ''
   constructor(private modalService: BsModalService, private engine: EngineService) { }
 
   openModal(template: TemplateRef<any>) {
@@ -26,17 +28,8 @@ export class QuizComponent implements OnInit {
   }
   ngOnInit() {
     this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    this.questions = [
-      { imageUrl: '../../../assets//favicon.ico', no: 1, name: 'Among the following, on which architectural pattern is AngularJS based?', type: QuestionType.multipleChoise, options: [{ key: 'Test1', value: 'A' }, { key: 'Test2', value: 'B' }, { key: 'Test3', value: 'C' }, { key: 'Test4', value: 'D' }] },
-      { imageUrl: '../../../assets//que.png', no: 2, name: 'Among the following, on which architectural pattern is AngularJS based?', type: QuestionType.multipleChoise, options: [{ key: 'Test1', value: 'A' }, { key: 'Test2', value: 'B' }, { key: 'Test3', value: 'C' }, { key: 'Test4', value: 'D' }] },
-      { no: 3, name: 'test1', type: QuestionType.snigleChoise, options: [{ key: 'Test1', value: 'A' }, { key: 'Test2', value: 'B' }, { key: 'Test3', value: 'C' }, { key: 'Test4', value: 'D' }], },
-      { no: 4, name: 'test1', type: QuestionType.snigleChoise, options: [{ key: 'Test1', value: 'A' }, { key: 'Test2', value: 'B' }, { key: 'Test3', value: 'C' }, { key: 'Test4', value: 'D' }], },
-      { no: 5, name: 'test1', type: QuestionType.text, options: [{ key: 'Test1', value: 'A' }, { key: 'Test2', value: 'B' }, { key: 'Test3', value: 'C' }, { key: 'Test4', value: 'D' }], },
-      { no: 6, name: 'test1', type: QuestionType.text, options: [{ key: 'Test1', value: 'A' }, { key: 'Test2', value: 'B' }, { key: 'Test3', value: 'C' }, { key: 'Test4', value: 'D' }], }
-
-    ]
+    this.questions = questions
     this.question = this.questions[0];
-    // this.engine.setDemoQuestions(this.question)
   }
 
   updateTextValue(event: any) {
@@ -91,9 +84,24 @@ export class QuizComponent implements OnInit {
     }
   }
   updateradioValues(value: string) {
-    this.selectedValues = value;
+    this.selectedValues = [value];
   }
   submitTest() {
-    console.log(this.answersMap)
+    this.result = this.calculateResult();
+    if (this.result >= 70) {
+      this.wishMessage = 'Congratulations !!'
+    } else {
+      this.wishMessage = 'Please try again later'
+    }
   }
+  calculateResult() {
+    let correctAnswers = 0
+    answers.forEach((ans: { questionNo: number; answer: any; }) => {
+      if (JSON.stringify(ans.answer) === JSON.stringify(this.answersMap.get(ans.questionNo))) {
+        correctAnswers++;
+      }
+    });
+    return correctAnswers / this.questions.length * 100;
+  }
+
 }

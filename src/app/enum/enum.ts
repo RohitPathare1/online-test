@@ -8,6 +8,6 @@ export enum Operator {
 }
 export enum QuestionType {
     multipleChoise = 'checkbox',
-    snigleChoise = 'radio',
+    singleChoise = 'radio',
     text = 'text',
 }
