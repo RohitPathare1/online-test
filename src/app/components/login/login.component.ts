@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Result } from 'src/app/models/model';
+import { EngineService } from 'src/app/services/engine.service';
+import { asyncValidator } from '../helper/helper';
 
 @Component({
   selector: 'app-login',
@@ -10,17 +13,19 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   contactForm: FormGroup;
   showPassword: boolean = false
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private engine: EngineService) {
     this.contactForm = this.fb.group({
-      firstName: ['', Validators.required, Validators.max(20)],
-      lastName: ['', Validators.required, Validators.max(20)],
-      email: ['', Validators.required, Validators.email],
-      phoneNumber: ['', Validators.required, Validators.max(12), Validators.min(10)]
+      userName: ['', asyncValidator, Validators.required, Validators.email],
+      password: ['', asyncValidator, Validators.required,],
     });
   }
   Login() {
-    console.log(this.contactForm);
-    this.router.navigate(['/home/dashboard'])
+    this.engine.login(this.contactForm.value).then((result: Result) => {
+      if (result.success) {
+
+        this.router.navigate(['/home/dashboard'])
+      }
+    })
 
   }
   goToSignUP() {
